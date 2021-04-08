@@ -32,4 +32,4 @@ jobs:
       with:
         app-name: 'innovationgraphdbapi-appsrv'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_85e8266c2efd45a5b742c81d1c14c91d }}
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_3df3f9b178a44d598f52a9a4a8c2f267 }}
