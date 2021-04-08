@@ -29,10 +29,3 @@ app = Flask(__name__)
 def hello():
     return invoke_gremlin_connection()
 
-@app.route("/test")
-def test():
-    return 'Check test api url'
-
-@app.route("/route")
-def test():
-    return 'Check route api url'
