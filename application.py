@@ -34,4 +34,9 @@ def get_product():
     products = g.V().hasLabel('Product').limit(5).valueMap('productID','productName').toList()
     return str(products)
 
+@app.route('/suppliers')
+def get_supplier():
+    #fetch product vertex with Product Id and Product Name properties. limit rows to 5
+    suppliers = g.V().hasLabel('Product').limit(5).as_('p').in_().hasLabel('Supplier').as_('s').select('p','s').by(valueMap('productID','productName')).by(valueMap('supplierID','companyName')).toList()
+    return str(suppliers)
 
