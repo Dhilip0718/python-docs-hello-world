@@ -34,12 +34,4 @@ def get_product():
     products = g.V().hasLabel('Product').limit(5).valueMap('productID','productName').toList()
     return str(products)
 
-@app.route('/supplier')
-def get_supplier():
-    supplier_info = g.V().hasLabel('Product').limit(5).as_('p').in_().hasLabel('Supplier').as_('s').select('p','s').by(valueMap('productID','productName')).by(valueMap('supplierID','companyName')).toList()
-    return str(supplier_info)
 
-@app.route('/catogery')
-def get_supplier():
-    catogery_info = g.V().hasLabel('Product').limit(5).as_('p').out().hasLabel('Category').as_('c').select('p','c').by(valueMap('productID','productName')).by(valueMap('categoryID','categoryName')).toList()
-    return str(catogery_info)
