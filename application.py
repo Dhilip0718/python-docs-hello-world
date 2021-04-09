@@ -40,6 +40,9 @@ def get_productID():
     try:
         #fetch product vertex with Product Id and Product Name properties. limit rows to 5
         productId = g.V().hasLabel('Product').limit(5).valueMap('productID','productName').toList()
+        print('******************************')
+        print(productId)
+        
         response = json.dumps(productId)
         return response
     except Exception as e:
