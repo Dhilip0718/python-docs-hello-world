@@ -22,6 +22,7 @@ from gremlin_python.process.traversal import Scope
 from gremlin_python.process.traversal import Barrier
 from gremlin_python.process.traversal import Bindings
 from gremlin_python.process.traversal import WithOptions
+from gremlin_python.structure.io import graphsonV3d0
 from flask import Flask
 
 import json
@@ -31,6 +32,7 @@ connection = DriverRemoteConnection('ws://10.1.0.4:8182/gremlin', 'g')
 # The connection should be closed on shut down to close open connections with connection.close()
 g = graph.traversal().withRemote(connection)
 # Reuse 'g' across the application
+writer = graphsonV3d0.GraphSONWriter()
 
 
 app = Flask(__name__)
@@ -65,7 +67,7 @@ def get_productCat():
     try:
         print('*******Before query')
         #fetch product vertex with Product Id and Product Name properties. limit rows to 5
-        productCat = g.V().hasLabel('Product').limit(5).as_('p').in_().hasLabel('Supplier').as_('s').where(select('p','s').by('productID','productName')).toList()
+        productCat = writer.writeObject(g.V().hasLabel('Product').limit(5).as_('p').in_().hasLabel('Supplier').as_('s').where(select('p','s').by('productID','productName')).toList())
         print('After query************')
         response = json.dumps(productCat)
         print('Conversion*************')
