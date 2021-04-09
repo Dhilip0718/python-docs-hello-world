@@ -1,18 +1,10 @@
-"""
-from flask import Flask
-app = Flask(__name__)
-
-@app.route("/")
-def hello():
-    return "test"
-"""
-
 # Gremlin imports
 from gremlin_python import statics
 from gremlin_python.structure.graph import Graph
 from gremlin_python.process.graph_traversal import __
 from gremlin_python.driver.driver_remote_connection import DriverRemoteConnection
 from flask import Flask
+import json
     
 graph = Graph()
 connection = DriverRemoteConnection('ws://10.1.0.4:8182/gremlin', 'g')
@@ -25,10 +17,13 @@ app = Flask(__name__)
 
 @app.route('/')
 def get_productID():
-    #fetch product vertex with Product Id and Product Name properties. limit rows to 5
-    productId = g.V().hasLabel('Product').limit(5).valueMap('productID','productName').toList()
-    return productId
-
+    try:
+        #fetch product vertex with Product Id and Product Name properties. limit rows to 5
+        productId = g.V().hasLabel('Product').limit(5).valueMap('productID','productName').toList()
+        response = json.dumps(productId)
+        return response
+    except Exception as e:
+        return e
 
 @app.route('/post/<int:post_id>')
 def show_post(post_id):
