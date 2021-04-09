@@ -63,9 +63,12 @@ def get_product():
 @app.route('/prodCat')
 def get_productCat():
     try:
+        print('*******Before query')
         #fetch product vertex with Product Id and Product Name properties. limit rows to 5
         productCat = g.V().hasLabel('Product').limit(5).as_('p').in_().hasLabel('Supplier').as_('s').where(select('p','s').by('productID','productName')).toList()
+        print('After query************')
         response = json.dumps(productCat)
+        print('Conversion*************')
         print(response)
         return response
     except Exception as e:
