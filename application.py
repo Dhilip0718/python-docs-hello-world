@@ -61,7 +61,7 @@ def get_productCat():
     try:
         #fetch product vertex with Product Id and Product Name properties. limit rows to 5
         productCat = g.V().hasLabel('Product').limit(5).as_('p').in_().hasLabel('Supplier').as_('s').select('p','s').by(valueMap('productID','productName')).toList()
-        response = json.dumps(productCat.toList())
+        response = json.dumps(productCat)
         print(response)
         return response
     except Exception as e:
