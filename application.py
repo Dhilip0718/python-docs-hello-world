@@ -69,7 +69,7 @@ def get_productCat():
         #fetch product vertex with Product Id and Product Name properties. limit rows to 5
         productCat = writer.writeObject(g.V().hasLabel('Product').limit(5).as_('p').in_().hasLabel('Supplier').as_('s').where(select('p','s').by('productID','productName')).toList())
         print('After query************')
-        response = json.dumps(productCat)
+        response = productCat
         print('Conversion*************')
         print(response)
         return response
