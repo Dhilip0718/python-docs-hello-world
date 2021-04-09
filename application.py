@@ -36,4 +36,22 @@ def get_product():
     products = g.V().hasLabel('Product').limit(5).valueMap('productID','productName').toList()
     return str(products)
 
+@app.route('/prodCat')
+def get_productCat():
+    try:
+        #fetch product vertex with Product Id and Product Name properties. limit rows to 5
+        productCat = g.V().hasLabel('Product').limit(5).as_('p').out().hasLabel('Category').as_('c').select('p','c').by(valueMap('productID','productName')).by(valueMap('categoryID','categoryName')).toList()
+        response = json.dumps(productCat)
+        return response
+    except Exception as e:
+        return e
 
+@app.route('/typeOf')
+def get_type():
+    try:
+        #fetch product vertex with Product Id and Product Name properties. limit rows to 5
+        prodType = g.V().hasLabel('Product').limit(5).valueMap('productID','productName').toList()
+        response = json.dumps(prodType)
+        return response
+    except Exception as e:
+        return e
