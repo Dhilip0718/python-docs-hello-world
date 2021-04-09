@@ -52,6 +52,7 @@ def get_type():
         #fetch product vertex with Product Id and Product Name properties. limit rows to 5
         prodType = g.V().hasLabel('Product').limit(5).valueMap('productID','productName').toList()
         response = type(prodType)
+        print prodType
         return response
     except Exception as e:
         return e
