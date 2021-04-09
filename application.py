@@ -23,6 +23,13 @@ g = graph.traversal().withRemote(connection)
 
 app = Flask(__name__)
 
+@app.route('/')
+def get_productID():
+    #fetch product vertex with Product Id and Product Name properties. limit rows to 5
+    productId = g.V().hasLabel('Product').limit(5).valueMap('productID','productName').toList()
+    return str(productId)
+
+
 @app.route('/post/<int:post_id>')
 def show_post(post_id):
     # show the post with the given id, the id is an integer
@@ -34,9 +41,4 @@ def get_product():
     products = g.V().hasLabel('Product').limit(5).valueMap('productID','productName').toList()
     return str(products)
 
-@app.route('/')
-def get_productID():
-    #fetch product vertex with Product Id and Product Name properties. limit rows to 5
-    productId = g.V().hasLabel('Product').limit(5).valueMap('productID','productName').toList()
-    return str(productId)
 
