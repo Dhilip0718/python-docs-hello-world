@@ -40,12 +40,8 @@ app = Flask(__name__)
 @app.route('/')
 def get_productID():
     try:
-        print('*******Before query***********************')
         #fetch product vertex with Product Id and Product Name properties. limit rows to 5
         productId = g.V().hasLabel('Product').limit(5).valueMap('productID','productName').toList()
-        print('******************************')
-        print(productId)
-        
         response = json.dumps(productId)
         return response
     except Exception as e:
@@ -58,30 +54,27 @@ def show_post(post_id):
 
 @app.route('/product')
 def get_product():
-    #fetch product vertex with Product Id and Product Name properties. limit rows to 5
-    products = g.V().hasLabel('Product').limit(5).valueMap('productID','productName').toList()
-    return str(products)
+    try:
+        #fetch product vertex with Product Id and Product Name properties. limit rows to 5
+        products = g.V().hasLabel('Product').limit(5).valueMap('productID','productName').toList()
+        return json.dumps(products)
+    except Exception as e:
+        return str(e)
+
+@app.route('/prodSup')
+def get_productSup():
+    try:
+        #fetch  Product Id, Product Name and related supplier id and supplier Name properties. limit rows to 5
+        productSup = writer.writeObject(g.V().hasLabel('Product').limit(5).as_('p').in_().hasLabel('Supplier').as_('s').select('p','s').by('productID','productName').by('supplierID','companyName'))
+        return productSup
+    except Exception as e:
+        return str(e)
 
 @app.route('/prodCat')
 def get_productCat():
     try:
-        print('*******Before query')
-        #fetch product vertex with Product Id and Product Name properties. limit rows to 5
+        #fetch  Product Id, Product Name and related supplier id and supplier Name properties. limit rows to 5
         productCat = writer.writeObject(g.V().hasLabel('Product').limit(5).as_('p').out().hasLabel('Category').as_('c').select('p','c').by('productID','productName').by('categoryID','categoryName'))
-        print('After query************')
-        print('Conversion*************')
-        print(productCat)
         return productCat
     except Exception as e:
         return str(e)
-
-@app.route('/typeOf')
-def get_type():
-    try:
-        #fetch product vertex with Product Id and Product Name properties. limit rows to 5
-        prodType = g.V().hasLabel('Product').limit(5).valueMap('productID','productName').toList()
-        response = type(prodType)
-        print(prodType)
-        return response
-    except Exception as e:
-        return e
