@@ -40,8 +40,8 @@ def get_product():
 def get_productCat():
     try:
         #fetch product vertex with Product Id and Product Name properties. limit rows to 5
-        productCat = g.V().hasLabel('Product').limit(5).as_('p').out().hasLabel('Category').as_('c').select('p','c').by(valueMap('productID','productName')).by(valueMap('categoryID','categoryName')).toList()
-        response = json.dumps(productCat)
+        productCat = g.V().hasLabel('Product').limit(5).as_('p').out().hasLabel('Category').as_('c').select('p','c').by(valueMap('productID','productName')).by(valueMap('categoryID','categoryName'))
+        response = json.dumps(productCat.toList())
         return response
     except Exception as e:
         return e
@@ -51,7 +51,7 @@ def get_type():
     try:
         #fetch product vertex with Product Id and Product Name properties. limit rows to 5
         prodType = g.V().hasLabel('Product').limit(5).valueMap('productID','productName').toList()
-        response = json.dumps(prodType)
+        response = type(prodType)
         return response
     except Exception as e:
         return e
