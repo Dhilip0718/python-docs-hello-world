@@ -67,12 +67,11 @@ def get_productCat():
     try:
         print('*******Before query')
         #fetch product vertex with Product Id and Product Name properties. limit rows to 5
-        productCat = writer.writeObject(g.V().hasLabel('Product').limit(5).as_('p').in_().hasLabel('Supplier').as_('s').(select('p','s').by('productID','productName')).toList())
+        productCat = writer.writeObject(g.V().hasLabel('Product').limit(5).as_('p').out().hasLabel('Category').as_('c').select('p','c').by(valueMap('productID','productName')).by(valueMap('categoryID','categoryName')))
         print('After query************')
-        response = productCat
         print('Conversion*************')
-        print(response)
-        return response
+        print(productCat)
+        return productCat
     except Exception as e:
         return str(e)
 
